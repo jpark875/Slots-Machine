@@ -24,9 +24,7 @@ DEFAULT_PAYTABLE = MappingProxyType(
 
 @dataclass(frozen=True)
 class Machine:
-    """Independent identical reels. Three of a kind pays per `paytable`; exactly two
-    cherries pays `two_cherries`. The jackpot is three of `jackpot_symbol`.
-    """
+    """Independent identical reels."""
 
     weights: Mapping[str, int] = field(default_factory=lambda: DEFAULT_WEIGHTS)
     paytable: Mapping[str, int] = field(default_factory=lambda: DEFAULT_PAYTABLE)
@@ -87,7 +85,7 @@ class Machine:
         return sum((p for combo, p in self._outcomes() if self.payout(combo) > 0), Fraction(0))
 
     def return_to_player(self) -> Fraction:
-        """Expected payout per unit bet. Below 1 means the house keeps the difference."""
+        """Expected payout per unit bet."""
         return sum((p * self.payout(combo) for combo, p in self._outcomes()), Fraction(0))
 
     def payout_variance(self) -> Fraction:

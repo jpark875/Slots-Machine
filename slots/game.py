@@ -1,4 +1,4 @@
-"""Interactive text game. Input and output are injected so it can be tested."""
+"""Interactive text game."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ def play(
     ask: Callable[[str], str] | None = None,
     say: Callable[[str], None] = print,
 ) -> int:
-    """Run a session until the player quits or cannot cover the bet. Returns the balance."""
+    """Run a session until the player quits or cannot cover the bet."""
     ask = ask or input
     if balance < 1 or bet < 1:
         raise ValueError("balance and bet must be positive")
