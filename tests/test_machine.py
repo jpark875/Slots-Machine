@@ -75,3 +75,11 @@ def test_custom_machine_odds():
     coin = Machine(weights={"seven": 1, "cherry": 1}, paytable={"seven": 8}, two_cherries=0)
     assert coin.jackpot_probability() == Fraction(1, 8)
     assert coin.return_to_player() == 1
+
+
+def test_payout_variance_matches_enumeration():
+    outcomes = list(M._outcomes())
+    mean = sum(p * M.payout(c) for c, p in outcomes)
+    second = sum(p * M.payout(c) ** 2 for c, p in outcomes)
+    assert M.payout_variance() == second - mean**2
+    assert M.payout_variance() > 40  # the jackpot dominates the spread

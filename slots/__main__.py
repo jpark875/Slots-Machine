@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import math
 import random
 import sys
 
@@ -27,8 +28,9 @@ def cmd_simulate(args: argparse.Namespace) -> int:
     mean = average_pulls(machine, args.trials, rng)
     print(f"average pulls to jackpot over {args.trials} runs: {mean:,.0f} (exact {exact:,.0f})")
     rtp = simulated_return(machine, args.spins, rng)
+    margin = 1.96 * math.sqrt(float(machine.payout_variance()) / args.spins)
     print(
-        f"return to player over {args.spins:,} spins: {rtp:.2%} "
+        f"return to player over {args.spins:,} spins: {rtp:.2%} ± {margin:.2%} "
         f"(exact {float(machine.return_to_player()):.2%})"
     )
     return 0

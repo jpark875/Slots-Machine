@@ -90,5 +90,12 @@ class Machine:
         """Expected payout per unit bet. Below 1 means the house keeps the difference."""
         return sum((p * self.payout(combo) for combo, p in self._outcomes()), Fraction(0))
 
+    def payout_variance(self) -> Fraction:
+        """Variance of the payout per unit bet; the jackpot makes it large."""
+        mean = self.return_to_player()
+        return sum(
+            (p * (self.payout(combo) - mean) ** 2 for combo, p in self._outcomes()), Fraction(0)
+        )
+
 
 DEFAULT_MACHINE = Machine()
